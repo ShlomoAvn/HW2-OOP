@@ -135,29 +135,25 @@ public class TechnionTunesImpl implements OOP.Provided.TechnionTunes {
 
 
     public boolean canGetAlong(int userId1, int userId2) throws UserDoesntExist {
-        User user1 = userMap.get(userId1); // Assuming this method gets a user by their ID
+        User user1 = userMap.get(userId1);
         User user2 = userMap.get(userId2);
 
         if (user1 == null || user2 == null) {
             throw new UserDoesntExist();
         }
 
-        // Rule 1: Every user can get along with themselves
         if (userId1 == userId2) {
             return true;
         }
-       // Map<User,Integer> ms = user1.getFriends();
-        // Rule 2: Two friends can get along if they have rated at least one song 8 or higher
-        if (user1.getFriends().containsKey(user2)) { // Assuming this method checks if two users are friends
+        if (user1.getFriends().containsKey(user2)) {
             return canGetAlongDirectly(user1, user2);
         }
 
-        // Rule 3: Check the friendship graph path
         return canGetAlongViaPath(user1, user2);
     }
 
 
-
+    //checks if there's a path of friends through which the 2 users can get along.
     private boolean canGetAlongViaPath(User user1, User user2) {
         if (user1.equals(user2)) {
             return true;
@@ -168,11 +164,15 @@ public class TechnionTunesImpl implements OOP.Provided.TechnionTunes {
     
         return dfs(user1, user2, visited, parentMap);
     }
-    
+    //goes through all of the friends of the current user, if they didn't get visited already and they get along with the current user
+    //they would be added into a map of friends of that user. if the target is found than the function returns true since
+    //they would be able to get along. if not, than we would apply the function unto the friend, doing this recursion until there aren't
+    //any non-visited friends (at that point it would return false), or until we found a way that the 2 users could get along.
+
     private boolean dfs(User current, User target, Set<User> visited, Map<User, User> parentMap) {
         visited.add(current);
     
-        for (User friend : current.getFriends().keySet()) { // Assuming getFriends(User user) returns the list of friends
+        for (User friend : current.getFriends().keySet()) {
             if (!visited.contains(friend) && canGetAlongDirectly(current, friend)) {
                 parentMap.put(friend, current);
     
@@ -189,7 +189,8 @@ public class TechnionTunesImpl implements OOP.Provided.TechnionTunes {
     
         return false;
     }
-
+    //this function checks if there's a path through which the previous user (saved in the parentmap) can get along
+    //with the new user.
     private boolean canGetAlongPath(User user, Map<User, User> parentMap) {
         User currentUser = user;
         while (parentMap.get(currentUser) != null) {
