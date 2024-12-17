@@ -177,7 +177,7 @@ public class TechnionTunesImpl implements OOP.Provided.TechnionTunes {
                 parentMap.put(friend, current);
     
                 if (friend.equals(target)) {
-                    if (canGetAlongPath(target, parentMap, visited)) {
+                    if (canGetAlongPath(target, parentMap)) {
                         return true;
                     }
                     parentMap.remove(friend);
@@ -190,7 +190,7 @@ public class TechnionTunesImpl implements OOP.Provided.TechnionTunes {
         return false;
     }
 
-    private boolean canGetAlongPath(User user, Map<User, User> parentMap, Set<User> visited) {
+    private boolean canGetAlongPath(User user, Map<User, User> parentMap) {
         User currentUser = user;
         while (parentMap.get(currentUser) != null) {
             User parent = parentMap.get(currentUser);
