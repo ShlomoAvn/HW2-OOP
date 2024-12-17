@@ -1,4 +1,4 @@
-package OOP;
+package OOP.Solution;
 
 import OOP.Provided.Song;
 import OOP.Provided.User;
@@ -14,7 +14,7 @@ private int userAge;
 private Map<OOP.Provided.Song, Integer> ratedSongs = new HashMap<>();
 private Set<User> friends = new HashSet<>();
     
-    public UserImpl(int userID, String userName, int userAge) throws SamePerson, AlreadyFriends {
+    public UserImpl(int userID, String userName, int userAge) {
         this.userID = userID;
         this.userName = userName;
         this.userAge = userAge;
@@ -52,6 +52,7 @@ private Set<User> friends = new HashSet<>();
             throw new SongAlreadyRated();
         }
         ratedSongs.put(song, rate);
+        song.rateSong(this, rate);
         return this;
     }
 
@@ -153,18 +154,18 @@ public boolean favoriteSongInCommon(User user) {
     return !commonFavorites.isEmpty();
 }
 
-    /**
-     *
-     * @return a map of the user's friends where <key,value> = <friend ,
-     *  the number of friend's rated songs >
-     */
-public Map<User,Integer> getFriends() {
-    return friends.stream()
-            .collect(Collectors.toMap(
-                    friend -> friend,
-                    friend -> friend.getRatedSongs().size()
-            ));
-}
+        /**
+         *
+         * @return a map of the user's friends where <key,value> = <friend ,
+         *  the number of friend's rated songs >
+         */
+    public Map<User,Integer> getFriends() {
+        return friends.stream()
+                .collect(Collectors.toMap(
+                        friend -> friend,
+                        friend -> friend.getRatedSongs().size()
+                ));
+    }
 
     @Override
     public int compareTo(User o) {

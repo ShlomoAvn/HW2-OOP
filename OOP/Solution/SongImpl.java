@@ -1,4 +1,4 @@
-package OOP;
+package OOP.Solution;
 
 import OOP.Provided.Song;
 import OOP.Provided.User;
@@ -45,7 +45,7 @@ public SongImpl(int songID, String songName, int length, String singerName) {
 
     @Override
     public void rateSong(User user, int rate) throws User.IllegalRateValue,User.SongAlreadyRated{
-    if (rate < 1 || rate > 5) {
+    if (rate < 0 || rate > 10) {
             throw new OOP.Provided.User.IllegalRateValue();
         }
 
