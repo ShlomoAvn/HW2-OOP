@@ -58,13 +58,7 @@ public SongImpl(int songID, String songName, int length, String singerName) {
         ratingsMap.get(rate).add(user);
     }
 
-    /**
-     *
-     * @return a collection of users that rated this song ordered as follows:
-     *  1- by rating ( from higher to lower )
-     *  2- by age ( from lower to higher)
-     *  3- by id ( from higher to lower)
-     */
+
     public Collection<User> getRaters() {
         List<User> sortedUsers = new ArrayList<>();
         ratingsMap.entrySet()
@@ -85,12 +79,6 @@ public SongImpl(int songID, String songName, int length, String singerName) {
     }
 
     @Override
-    /**
-     *
-     * @return a map where keys are the ratings that this song has and each key's value is
-     * a Set of Users ( order doesn't matter ) that rated this song with value that equals
-     * the key.
-     */
     public Map<Integer, Set<User>> getRatings() {
         Map<Integer, Set<User>> copy = new HashMap<>();
         for (Map.Entry<Integer, Set<User>> entry : ratingsMap.entrySet()) {
